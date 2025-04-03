@@ -1,9 +1,30 @@
-def add(x, y):
-    return int(x + y)
+#include <iostream>
+#include <vector>
+using namespace std;
 
+class UF {
+private:
+    vector<int> p;
 
-if __name__ == "__main__":
-    print(add(1, 2))
-    print(add(1.5, 2.5))
-    print(add(1, 2.5))
-    print(add(1.5, 7))
+public:
+    UF(int n) : p(n + 1, -1) {}
+
+    int find(int x) {
+        if (p[x] < 0)
+            return x;
+
+        return p[x] = find(p[x]);
+    }
+
+    bool uni(int u, int v) {
+        u = find(u);
+        v = find(v);
+
+        if (u == v) return false;
+        if (p[v] < p[u]) swap(u, v);
+        if (p[u] == p[v]) p[u]--;
+        p[v] = u;
+
+        return true;
+    }
+};
